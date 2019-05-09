@@ -1,0 +1,78 @@
+group 'com.fanglin'
+version '1.0.0'
+
+apply from: rootProject.projectDir.path + '/ext.gradle'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'io.spring.dependency-management'
+//生成可运行jar
+apply plugin: 'org.springframework.boot'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// JVM 版本号要求
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven {
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly fileTree(dir: 'lib', includes: ['*jar'])
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    compileOnly(
+            "org.projectlombok:lombok:${lombokVersion}",
+    )
+    compile("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
+    compile("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
+    compile("com.alibaba:dubbo:${alibabaDubboVersion}")
+    compile("com.fanglin:dubbo-template-api:1.0.0") {
+        transitive false
+    }
+    compile("com.fanglin:common:1.0.0") {
+        transitive false
+    }
+    compile("org.springframework.boot:spring-boot-starter-web:${springbootVersion}") {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile("org.springframework.boot:spring-boot-starter-undertow:${springbootVersion}") {
+        exclude module: 'undertow-websockets-jsr'
+    }
+    compile("org.springframework.boot:spring-boot-starter-security:${springbootVersion}")
+    compile("org.springframework.session:spring-session-data-redis:${springbootVersion}")
+    compile("redis.clients:jedis:${jedisVersion}")
+    compile("io.netty:netty-all:${nettyVersion}")
+}
+
+configurations {
+
+}
+
+buildscript {
+    apply from: rootProject.projectDir.path + '/ext.gradle'
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
+    }
+}

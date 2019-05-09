@@ -1,0 +1,18 @@
+spring:
+  redis:
+    host: 172.17.0.1
+    port: 6379
+    database: 0
+    password: 123456
+dubbo:
+  registry:
+    address: nacos://172.17.0.1:8848
+zipkin:
+  address: http://172.17.0.1:9411/api/v2/spans
+  service-name: controller
+  sampling-rate: 1
+jedis:
+  password: 123456
+common:
+  jedis: true
+  redis: true
