@@ -1,13 +1,16 @@
-group 'com.fanglin'
+plugins {
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+}
+
+group 'com.fanglin.dubbo'
 version '1.0.0'
 
 apply from: rootProject.projectDir.path + '/ext.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
-apply plugin: 'io.spring.dependency-management'
-//生成可运行jar
-apply plugin: 'org.springframework.boot'
+apply plugin: 'maven-publish'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -22,57 +25,32 @@ repositories {
     maven {
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
-    maven {
-        url "https://plugins.gradle.org/m2/"
-    }
-    mavenCentral()
 }
 
 dependencies {
     compileOnly fileTree(dir: 'lib', includes: ['*jar'])
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok"
 
     compileOnly(
-            "org.projectlombok:lombok:${lombokVersion}",
+            "org.projectlombok:lombok",
     )
     compile("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
     compile("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
     compile("com.alibaba:dubbo:${alibabaDubboVersion}")
-    compile("com.fanglin:dubbo-template-api:1.0.0") {
+    compile("com.fanglin.dubbo:dubbo-api:1.0.0") {
         transitive false
     }
-    compile("com.fanglin:common:1.0.0") {
+    compile("com.fanglin.common:common:1.0.0") {
         transitive false
     }
-    compile("org.springframework.boot:spring-boot-starter-web:${springbootVersion}") {
+    compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
     }
-    compile("org.springframework.boot:spring-boot-starter-undertow:${springbootVersion}") {
+    compile("org.springframework.boot:spring-boot-starter-undertow") {
         exclude module: 'undertow-websockets-jsr'
     }
-    compile("org.springframework.boot:spring-boot-starter-security:${springbootVersion}")
-    compile("org.springframework.session:spring-session-data-redis:${springbootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.session:spring-session-data-redis")
     compile("redis.clients:jedis:${jedisVersion}")
-    compile("io.netty:netty-all:${nettyVersion}")
-}
-
-configurations {
-
-}
-
-buildscript {
-    apply from: rootProject.projectDir.path + '/ext.gradle'
-    repositories {
-        mavenLocal()
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
-    }
+    compile("io.netty:netty-all")
 }

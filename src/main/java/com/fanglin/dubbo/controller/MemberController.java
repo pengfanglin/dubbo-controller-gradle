@@ -7,7 +7,6 @@ import com.fanglin.common.utils.WxUtils;
 import com.fanglin.dubbo.service.MemberServiceI;
 import com.fanglin.dubbo.template.model.MemberModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
