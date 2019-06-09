@@ -4,17 +4,18 @@ import com.alibaba.dubbo.rpc.RpcException;
 import com.fanglin.common.core.others.Ajax;
 import com.fanglin.common.core.others.ValidateException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.nio.file.AccessDeniedException;
+import java.util.Arrays;
+
 
 /**
  * 全局异常捕获
@@ -36,13 +37,14 @@ public class MyExceptionHandler {
     }
 
     /**
-     * spring security无权限异常
+     * 请求方式不支持异常
      */
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
     @ResponseBody
-    public Ajax handleAccessDeniedException() {
-        return Ajax.status(false,403,"无权限");
+    public Ajax handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        String message = e.getMethod() + "不支持" + (e.getSupportedMethods() == null ? "" : "请使用" + Arrays.toString(e.getSupportedMethods()));
+        return Ajax.status(false, 405, message);
     }
 
     /**
