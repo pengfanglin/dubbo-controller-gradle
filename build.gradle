@@ -54,3 +54,10 @@ dependencies {
     compile("redis.clients:jedis:${jedisVersion}")
     compile("io.netty:netty-all")
 }
+publishing {
+    publications {
+        myPublish(MavenPublication) {
+            from components.java
+        }
+    }
+}
