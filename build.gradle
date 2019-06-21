@@ -37,7 +37,7 @@ dependencies {
     compile("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
     compile("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
     compile("com.alibaba:dubbo:${alibabaDubboVersion}")
-    compile("com.fanglin.dubbo:dubbo-api:1.0.0") {
+    compile("com.fanglin.dubbo:api:1.0.0") {
         transitive false
     }
     compile("com.fanglin.common:common:1.0.0") {

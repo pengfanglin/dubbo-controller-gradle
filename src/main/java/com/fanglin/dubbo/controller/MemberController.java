@@ -3,6 +3,7 @@ package com.fanglin.dubbo.controller;
 
 import com.fanglin.common.core.others.Ajax;
 import com.fanglin.common.core.page.Page;
+import com.fanglin.common.core.page.PageResult;
 import com.fanglin.common.utils.WxUtils;
 import com.fanglin.dubbo.service.MemberServiceI;
 import com.fanglin.dubbo.template.model.MemberModel;
@@ -40,12 +41,12 @@ public class MemberController {
     }
 
     @PostMapping("getMemberDetail")
-    public Ajax getMemberDetail(@RequestParam("memberId") Integer memberId) {
+    public Ajax<MemberModel> getMemberDetail(@RequestParam("memberId") Integer memberId) {
         return Ajax.ok(memberService.getMemberDetail(memberId));
     }
 
     @PostMapping("getMemberList")
-    public Ajax getMemberList(Page page) {
+    public Ajax<PageResult<MemberModel>> getMemberList(Page page) {
         return Ajax.ok(memberService.getMemberList(page));
     }
 }

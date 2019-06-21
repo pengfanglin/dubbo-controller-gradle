@@ -20,7 +20,7 @@ public class AuthController {
      */
     @RequestMapping("expired")
     public Ajax expired(){
-        return Ajax.status(false,600,"已在其他地点登录!");
+        return Ajax.status(600,"已在其他地点登录!");
     }
     /**
      * session无效

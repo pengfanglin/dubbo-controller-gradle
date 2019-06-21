@@ -30,6 +30,6 @@ public class MyAuthExceptionEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        objectMapper.writeValue(response.getOutputStream(), Ajax.status(false,401, "未授权，请登录"));
+        objectMapper.writeValue(response.getOutputStream(), Ajax.status(401, "未授权，请登录"));
     }
 }

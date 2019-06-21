@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Arrays;
 
@@ -44,7 +46,7 @@ public class MyExceptionHandler {
     @ResponseBody
     public Ajax handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         String message = e.getMethod() + "不支持" + (e.getSupportedMethods() == null ? "" : "请使用" + Arrays.toString(e.getSupportedMethods()));
-        return Ajax.status(false, 405, message);
+        return Ajax.status(405, message);
     }
 
     /**
@@ -129,5 +131,17 @@ public class MyExceptionHandler {
     public Ajax handleRpcException(RpcException e) {
         log.warn(e.getMessage());
         return Ajax.error("rpc异常");
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public Ajax handleRpcException(MethodArgumentTypeMismatchException e) {
+        return Ajax.error(String.format("方法参数类型不匹配,参数名[%s],类型[%s]",e.getName(),e.getParameter().getParameterType().getSimpleName()));
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public Ajax handleRpcException(MissingRequestHeaderException e) {
+        return Ajax.error(String.format("请求头缺少参数,参数名[%s],类型[%s]",e.getHeaderName(),e.getParameter().getParameterType().getSimpleName()));
     }
 }
