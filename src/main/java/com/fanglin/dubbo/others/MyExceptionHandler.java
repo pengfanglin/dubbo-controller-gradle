@@ -2,7 +2,7 @@ package com.fanglin.dubbo.others;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.fanglin.common.core.others.Ajax;
-import com.fanglin.common.core.others.ValidateException;
+import com.fanglin.common.core.others.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -52,10 +52,10 @@ public class MyExceptionHandler {
     /**
      * 业务异常
      */
-    @ExceptionHandler(ValidateException.class)
+    @ExceptionHandler(BusinessException.class)
     @ResponseBody
-    public Ajax handleValidateException(ValidateException e) {
-        return Ajax.error(e.getMessage());
+    public Ajax handleBusinessException(BusinessException e) {
+        return Ajax.status(e.getCode(), e.getMessage());
     }
 
 
@@ -136,12 +136,12 @@ public class MyExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     public Ajax handleRpcException(MethodArgumentTypeMismatchException e) {
-        return Ajax.error(String.format("方法参数类型不匹配,参数名[%s],类型[%s]",e.getName(),e.getParameter().getParameterType().getSimpleName()));
+        return Ajax.error(String.format("方法参数类型不匹配,参数名[%s],类型[%s]", e.getName(), e.getParameter().getParameterType().getSimpleName()));
     }
 
     @ExceptionHandler
     @ResponseBody
     public Ajax handleRpcException(MissingRequestHeaderException e) {
-        return Ajax.error(String.format("请求头缺少参数,参数名[%s],类型[%s]",e.getHeaderName(),e.getParameter().getParameterType().getSimpleName()));
+        return Ajax.error(String.format("请求头缺少参数,参数名[%s],类型[%s]", e.getHeaderName(), e.getParameter().getParameterType().getSimpleName()));
     }
 }

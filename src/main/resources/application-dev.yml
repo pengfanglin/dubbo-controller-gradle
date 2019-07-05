@@ -1,12 +1,46 @@
+server:
+  port: 8081
+  undertow:
+    io-threads: 16
+    worker-threads: 256
+    buffer-size: 1024
+    direct-buffers: true
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: dubbo-controller
+  session:
+    #spring session采用的数据源类型
+    store-type: redis
+    redis:
+      #配置session在redis里的命名空间
+      namespace: security_session
+      #配置session的保存触发方式
+      flush-mode: on_save
   redis:
     host: 127.0.0.1
     port: 6379
     database: 0
     password: 123456
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 500
+        min-idle: 10
+        max-idle: 50
 dubbo:
   registry:
     address: nacos://127.0.0.1:8848
+    filter: tracing
+  application:
+    name: dubbo-controller
+  consumer:
+    timeout: 10000
+    retries: 0
+  protocol:
+    name: dubbo
+    port: 20882
 zipkin:
   address: http://47.101.151.125:9411/api/v2/spans
   service-name: controller
@@ -14,5 +48,6 @@ zipkin:
 jedis:
   password: 123456
 common:
+  request-log: true
+  ajax-jackson: true
   jedis: true
-  redis: true

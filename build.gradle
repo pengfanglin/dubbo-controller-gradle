@@ -7,7 +7,7 @@ group 'com.fanglin.dubbo'
 version '1.0.0'
 
 apply from: rootProject.projectDir.path + '/ext.gradle'
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -28,35 +28,36 @@ repositories {
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'lib', includes: ['*jar'])
     annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    testAnnotationProcessor "org.projectlombok:lombok"
+    testAnnotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testCompileOnly("org.projectlombok:lombok")
+    api("org.projectlombok:lombok")
 
-    compileOnly(
-            "org.projectlombok:lombok",
-    )
-    compile("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
-    compile("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
-    compile("com.alibaba:dubbo:${alibabaDubboVersion}")
-    compile("com.fanglin.dubbo:api:1.0.0") {
+    implementation("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
+    implementation("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
+    implementation("com.alibaba:dubbo:${alibabaDubboVersion}")
+    implementation("com.fanglin.dubbo:api:1.0.0") {
         transitive false
     }
-    compile("com.fanglin.common:common:1.0.0") {
+    implementation("com.fanglin.common:common:1.0.0") {
         transitive false
     }
-    compile("org.springframework.boot:spring-boot-starter-web") {
+    implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
     }
-    compile("org.springframework.boot:spring-boot-starter-undertow") {
+    implementation("org.springframework.boot:spring-boot-starter-undertow") {
         exclude module: 'undertow-websockets-jsr'
     }
-    compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.session:spring-session-data-redis")
-    compile("redis.clients:jedis:${jedisVersion}")
-    compile("io.netty:netty-all")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.session:spring-session-data-redis")
+    implementation("redis.clients:jedis:${jedisVersion}")
+    implementation("io.netty:netty-all")
 }
 publishing {
     publications {
-        myPublish(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
         }
     }
