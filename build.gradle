@@ -6,19 +6,42 @@ plugins {
 group 'com.fanglin.dubbo'
 version '1.0.0'
 
-apply from: rootProject.projectDir.path + '/ext.gradle'
 apply plugin: 'java-library'
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
+def env = project.hasProperty('env') && project.property("env") == "pro" ? "pro" : "dev"
+def jarVersionSuffix = env == "pro" ? "-RELEASE" : "-SNAPSHOT"
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+tasks {
+    processResources {
+        from("src/main/resources")
+        into("$buildDir/resources/main")
+        include("application-" + env + ".yml","*.xml")
+        rename("application-" + env + ".yml", "application.yml")
+    }
 }
 
 // JVM 版本号要求
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+ext {
+    swaggerVersion = '2.9.2'
+    dubboRegistryNacosVersion = '0.0.1'
+    dubboStarterVersion = '0.2.1.RELEASE'
+    alibabaDubboVersion = '2.6.6'
+    jedisVersion = '2.10.0'
+    commonVersion="1.0.0${jarVersionSuffix}"
+    logbackEncoder='6.1'
+}
+
+
 
 repositories {
     mavenLocal()
@@ -38,10 +61,10 @@ dependencies {
     implementation("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
     implementation("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
     implementation("com.alibaba:dubbo:${alibabaDubboVersion}")
-    implementation("com.fanglin.dubbo:api:1.0.0") {
+    implementation("com.fanglin.dubbo:api:1.0.0${jarVersionSuffix}") {
         transitive false
     }
-    implementation("com.fanglin.common:common:1.0.0") {
+    implementation("com.fanglin.common:common:${commonVersion}") {
         transitive false
     }
     implementation("org.springframework.boot:spring-boot-starter-web") {
@@ -59,6 +82,12 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'local'
+            version += jarVersionSuffix
         }
     }
 }
