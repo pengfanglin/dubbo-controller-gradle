@@ -22,7 +22,7 @@ tasks {
     processResources {
         from("src/main/resources")
         into("$buildDir/resources/main")
-        include("application-" + env + ".yml","*.xml")
+        include("application-" + env + ".yml","**/*.xml")
         rename("application-" + env + ".yml", "application.yml")
     }
 }
@@ -39,9 +39,8 @@ ext {
     jedisVersion = '2.10.0'
     commonVersion="1.0.0${jarVersionSuffix}"
     logbackEncoder='6.1'
+    swaggerVersion = '2.9.2'
 }
-
-
 
 repositories {
     mavenLocal()
@@ -58,10 +57,12 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     api("org.projectlombok:lombok")
 
+    implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
+    implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     implementation("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
     implementation("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
     implementation("com.alibaba:dubbo:${alibabaDubboVersion}")
-    implementation("com.fanglin.dubbo:api:1.0.0${jarVersionSuffix}") {
+    implementation("com.fanglin.dubbo:template-api:1.0.0${jarVersionSuffix}") {
         transitive false
     }
     implementation("com.fanglin.common:common:${commonVersion}") {
@@ -73,8 +74,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-undertow") {
         exclude module: 'undertow-websockets-jsr'
     }
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.session:spring-session-data-redis")
     implementation("redis.clients:jedis:${jedisVersion}")
     implementation("io.netty:netty-all")
 }

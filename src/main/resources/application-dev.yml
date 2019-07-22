@@ -10,25 +10,6 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: dubbo-controller
-  session:
-    #spring session采用的数据源类型
-    store-type: redis
-    redis:
-      #配置session在redis里的命名空间
-      namespace: security_session
-      #配置session的保存触发方式
-      flush-mode: on_save
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    database: 0
-    password: 123456
-    timeout: 5000
-    jedis:
-      pool:
-        max-active: 500
-        min-idle: 10
-        max-idle: 50
 dubbo:
   registry:
     address: nacos://127.0.0.1:8848
