@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 group 'com.fanglin.dubbo'
@@ -33,13 +33,13 @@ targetCompatibility = 1.8
 
 ext {
     swaggerVersion = '2.9.2'
-    dubboRegistryNacosVersion = '0.0.1'
-    dubboStarterVersion = '0.2.1.RELEASE'
-    alibabaDubboVersion = '2.6.6'
+    dubboRegistryNacosVersion = '2.7.3'
+    nacosClientVersion = '1.1.1'
+    dubboStarterVersion = '2.7.1'
+    dubboVersion = '2.7.3'
     jedisVersion = '2.10.0'
     commonVersion="1.0.0${jarVersionSuffix}"
     logbackEncoder='6.1'
-    swaggerVersion = '2.9.2'
 }
 
 repositories {
@@ -59,9 +59,10 @@ dependencies {
 
     implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
     implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
-    implementation("com.alibaba:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
-    implementation("com.alibaba.boot:dubbo-spring-boot-starter:${dubboStarterVersion}")
-    implementation("com.alibaba:dubbo:${alibabaDubboVersion}")
+    implementation("org.apache.dubbo:dubbo:${dubboVersion}")
+    implementation("org.apache.dubbo:dubbo-registry-nacos:${dubboRegistryNacosVersion}")
+    implementation("com.alibaba.nacos:nacos-client:${nacosClientVersion}")
+    implementation("org.apache.dubbo:dubbo-spring-boot-starter:${dubboStarterVersion}")
     implementation("com.fanglin.dubbo:template-api:1.0.0${jarVersionSuffix}") {
         transitive false
     }

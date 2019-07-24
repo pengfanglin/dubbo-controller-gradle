@@ -1,11 +1,8 @@
 package com.fanglin.dubbo.controller;
 
-
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.fanglin.common.core.others.Ajax;
 import com.fanglin.common.core.page.Page;
 import com.fanglin.common.core.page.PageResult;
-import com.fanglin.common.utils.OthersUtils;
 import com.fanglin.common.utils.WxUtils;
 import com.fanglin.dubbo.template.api.MemberApi;
 import com.fanglin.dubbo.template.model.MemberModel;
@@ -13,12 +10,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 用户控制器
@@ -33,7 +30,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MemberController {
     @Reference
     MemberApi memberApi;
-
 
     @ApiOperation("测试")
     @ApiImplicitParams({
