@@ -29,6 +29,13 @@ zipkin:
 jedis:
   password: 123456
 common:
-  request-log: true
   ajax-jackson: true
   jedis: true
+  log:
+    enable: true
+    request:
+      enable: true
+      level: info
+    response:
+      enable: true
+      level: info
