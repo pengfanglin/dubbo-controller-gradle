@@ -1,11 +1,11 @@
 package com.fanglin.dubbo.others;
 
-import com.alibaba.dubbo.rpc.RpcException;
 import com.fanglin.common.core.others.Ajax;
 import com.fanglin.common.core.others.BusinessException;
 import com.fanglin.common.utils.JsonUtils;
 import com.fanglin.common.utils.OthersUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.rpc.RpcException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -109,7 +109,7 @@ public class MyExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     public Ajax handleException(Exception e, HttpServletRequest request) {
-        log.info("异常原因:{},请求参数:\n{}", e.getMessage(), JsonUtils.objectToJson(OthersUtils.readRequestParams(request)));
+        log.warn("异常原因:{},请求参数:\n{}", e.getMessage(), JsonUtils.objectToJson(OthersUtils.readRequestParams(request)));
         return Ajax.error("服务器错误");
     }
 
