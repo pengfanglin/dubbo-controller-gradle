@@ -23,10 +23,10 @@ pipeline {
       }
       steps {
         sh 'gradle build publishMavenPublicationToNexusRepository -x Test'
-        sh 'docker build -t nexus/${buildName}:${buildVersion}-test .'
+        sh 'docker build -t ${dockerUrl}/${buildName}:${buildVersion}-test .'
         sh 'docker login -u admin -p 123456 ${dockerUrl}'
-        sh 'docker push nexus/${buildName}:${buildVersion}-test'
-        sh 'docker rmi nexus/${buildName}:${buildVersion}-test'
+        sh 'docker push ${dockerUrl}/${buildName}:${buildVersion}-test'
+        sh 'docker rmi ${dockerUrl}/${buildName}:${buildVersion}-test'
       }
     }
     stage('build-master') {
@@ -35,10 +35,10 @@ pipeline {
       }
       steps {
         sh 'gradle build publishMavenPublicationToNexusRepository -Penv=pro -x Test'
-        sh 'docker build -t nexus/${buildName}:${buildVersion}-master .'
+        sh 'docker build -t ${dockerUrl}/${buildName}:${buildVersion}-master .'
         sh 'docker login -u admin -p 123456 ${dockerUrl}'
-        sh 'docker push nexus/${buildName}:${buildVersion}-master'
-        sh 'docker rmi nexus/${buildName}:${buildVersion}-master'
+        sh 'docker push ${dockerUrl}/${buildName}:${buildVersion}-master'
+        sh 'docker rmi ${dockerUrl}/${buildName}:${buildVersion}-master'
       }
     }
   }
@@ -47,6 +47,6 @@ pipeline {
     buildName = 'dubbo-controller'
     buildVersion='1.0.0'
     gitUrl = 'https://github.com/pengfanglin'
-    dockerUrl='https://nexus.qubaotang.cn'
+    dockerUrl='nexus.qubaotang.cn'
   }
 }
