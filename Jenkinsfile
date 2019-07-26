@@ -26,6 +26,7 @@ pipeline {
         sh 'docker build -t ${dockerUrl}/${buildName}:${buildVersion}-test .'
         sh 'docker login -u admin -p 123456 ${dockerUrl}'
         sh 'docker push ${dockerUrl}/${buildName}:${buildVersion}-test'
+        sh 'docker rmi ${dockerUrl}/${buildName}:${buildVersion}-test'
       }
     }
     stage('build-master') {
@@ -37,6 +38,7 @@ pipeline {
         sh 'docker build -t ${dockerUrl}/${buildName}:${buildVersion}-master .'
         sh 'docker login -u admin -p 123456 ${dockerUrl}'
         sh 'docker push ${dockerUrl}/${buildName}:${buildVersion}-master'
+        sh 'docker rmi ${dockerUrl}/${buildName}:${buildVersion}-master'
       }
     }
   }
@@ -45,6 +47,6 @@ pipeline {
     buildName = 'dubbo-controller'
     buildVersion='1.0.0'
     gitUrl = 'https://github.com/pengfanglin'
-    dockerUrl='47.101.151.125:8898'
+    dockerUrl='https://nexus.qubaotang.cn'
   }
 }
