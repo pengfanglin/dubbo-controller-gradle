@@ -47,6 +47,9 @@ repositories {
     maven {
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
+    maven {
+        url 'http://nexus.qubaotang.cn/repository/maven-public/'
+    }
 }
 
 dependencies {
@@ -88,6 +91,18 @@ publishing {
         maven {
             name = 'local'
             version += jarVersionSuffix
+        }
+    }
+    repositories {
+        maven {
+            name = 'nexus'
+            def releasesRepoUrl = "http://nexus.qubaotang.cn/repository/maven-releases/"
+            def snapshotsRepoUrl = "http://nexus.qubaotang.cn/repository/maven-snapshots/"
+            url = env == 'pro' ? releasesRepoUrl : snapshotsRepoUrl
+            credentials {
+                username = 'admin'
+                password = "123456"
+            }
         }
     }
 }
