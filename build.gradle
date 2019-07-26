@@ -22,7 +22,7 @@ tasks {
     processResources {
         from("src/main/resources")
         into("$buildDir/resources/main")
-        include("application-" + env + ".yml","**/*.xml")
+        include("application-" + env + ".yml", "**/*.xml")
         rename("application-" + env + ".yml", "application.yml")
     }
 }
@@ -38,8 +38,8 @@ ext {
     dubboStarterVersion = '2.7.1'
     dubboVersion = '2.7.3'
     jedisVersion = '2.10.0'
-    commonVersion="1.0.0${jarVersionSuffix}"
-    logbackEncoder='6.1'
+    commonVersion = "1.0.0${jarVersionSuffix}"
+    logbackEncoder = '6.1'
 }
 
 repositories {
