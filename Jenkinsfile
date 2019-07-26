@@ -47,6 +47,6 @@ pipeline {
     buildName = 'dubbo-controller'
     buildVersion='1.0.0'
     gitUrl = 'https://github.com/pengfanglin'
-    dockerUrl='nexus.qubaotang.cn'
+    dockerUrl='docker.qubaotang.cn'
   }
 }
