@@ -121,20 +121,20 @@ public class MyExceptionHandler {
      */
     @ExceptionHandler
     @ResponseBody
-    public Ajax handleRpcException(RpcException e) {
+    public Ajax handleException(RpcException e) {
         log.warn(e.getMessage());
         return Ajax.error("rpc异常");
     }
 
     @ExceptionHandler
     @ResponseBody
-    public Ajax handleRpcException(MethodArgumentTypeMismatchException e) {
+    public Ajax handleException(MethodArgumentTypeMismatchException e) {
         return Ajax.error(String.format("方法参数类型不匹配,参数名[%s],类型[%s]", e.getName(), e.getParameter().getParameterType().getSimpleName()));
     }
 
     @ExceptionHandler
     @ResponseBody
-    public Ajax handleRpcException(MissingRequestHeaderException e) {
+    public Ajax handleException(MissingRequestHeaderException e) {
         return Ajax.error(String.format("请求头缺少参数,参数名[%s],类型[%s]", e.getHeaderName(), e.getParameter().getParameterType().getSimpleName()));
     }
 }
