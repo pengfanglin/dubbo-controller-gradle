@@ -11,7 +11,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-def env = project.hasProperty('env') ? project.property("env") : "test"
+def env = project.hasProperty('env') ? project.property("env") : "dev"
 def jarVersionSuffix = env == "pro" ? "-RELEASE" : "-SNAPSHOT"
 
 tasks.withType(JavaCompile) {
