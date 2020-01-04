@@ -1,9 +1,12 @@
 package com.fanglin.dubbo.controller;
 
+import com.dianping.cat.Cat;
+import com.dianping.cat.message.Event;
+import com.dianping.cat.message.Transaction;
 import com.fanglin.common.core.others.Ajax;
 import com.fanglin.common.core.page.Page;
 import com.fanglin.common.core.page.PageResult;
-import com.fanglin.common.utils.WxUtils;
+import com.fanglin.common.util.WxUtils;
 import com.fanglin.dubbo.template.api.MemberApi;
 import com.fanglin.dubbo.template.model.MemberModel;
 import io.swagger.annotations.Api;
@@ -31,14 +34,6 @@ public class MemberController {
     @Reference
     MemberApi memberApi;
 
-    @ApiOperation("测试")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "账号id", required = true)
-    })
-    @PostMapping("test")
-    public Ajax test() {
-        return Ajax.ok(WxUtils.getJsApiTicket("555"));
-    }
 
     @ApiOperation("修改用户信息")
     @PostMapping("updateMember")
@@ -53,7 +48,21 @@ public class MemberController {
     })
     @PostMapping("getMemberDetail")
     public Ajax<MemberModel> getMemberDetail(@RequestParam Integer id) {
-        return Ajax.ok(memberApi.getMemberDetail(id));
+        Transaction transaction = Cat.newTransaction("url", "pageName");
+        try {
+            Cat.logEvent("URL.Server", "serverIp", Event.SUCCESS, "ip={serverIp}");
+            Cat.logMetricForCount("metric.key");
+            Cat.logMetricForDuration("metric.key", 5);
+            MemberModel member = memberApi.getMemberDetail(id);
+            transaction.setStatus(Transaction.SUCCESS);
+            return Ajax.ok(member);
+        } catch (Exception e) {
+            transaction.setStatus(e);
+            Cat.logError(e);
+            throw e;
+        } finally {
+            transaction.complete();
+        }
     }
 
     @ApiOperation("用户列表")

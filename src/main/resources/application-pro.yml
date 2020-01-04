@@ -22,13 +22,21 @@ dubbo:
   protocol:
     name: dubbo
     port: 20882
-zipkin:
-  address: http://172.17.0.1:9411/api/v2/spans
-  service-name: controller
-  sampling-rate: 1
-jedis:
-  password: 123456
 common:
-  request-log: true
   ajax-jackson: true
-  jedis: true
+  jedis:
+    enable: true
+    host: 172.17.0.1
+    password: 123456
+  zipkin:
+    address: http://172.17.0.1:9411/api/v2/spans
+    service-name: controller
+    sampling-rate: 1
+  log:
+    enable: true
+    request:
+      enable: true
+      level: info
+    response:
+      enable: true
+      level: info

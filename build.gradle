@@ -22,7 +22,7 @@ tasks {
     processResources {
         from("src/main/resources")
         into("$buildDir/resources/main")
-        include("application-" + env + ".yml", "**/*.xml")
+        include("application-" + env + ".yml", "**/*.xml","META-INF/*")
         rename("application-" + env + ".yml", "application.yml")
     }
 }
@@ -40,6 +40,8 @@ ext {
     jedisVersion = '2.10.0'
     commonVersion = "1.0.0${jarVersionSuffix}"
     logbackEncoder = '6.1'
+    catVersion = '3.0.0'
+    foundationServiceVersion = '2.5.0'
 }
 
 repositories {
@@ -80,6 +82,9 @@ dependencies {
     }
     implementation("redis.clients:jedis:${jedisVersion}")
     implementation("io.netty:netty-all")
+    implementation("com.dianping.cat:cat-client:${catVersion}")
+    implementation("org.unidal.framework:foundation-service:${foundationServiceVersion}")
+    implementation("org.codehaus.plexus:plexus-container-default:2.1.0")
 }
 publishing {
     publications {

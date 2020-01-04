@@ -1,7 +1,7 @@
 package com.fanglin.dubbo.controller;
 
 
-import com.fanglin.common.utils.TimeUtils;
+import com.fanglin.common.util.TimeUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
